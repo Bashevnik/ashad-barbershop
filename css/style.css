@@ -1,0 +1,435 @@
+@import url("fonts.css");
+
+/* ─────────────────────────────────────────────
+   ASHAD BARBERSHOP — Дніпро
+   Кольори зняті з залів: тепла штукатурка,
+   зелений оксамит честерфілда, цегла, лампи.
+   ───────────────────────────────────────────── */
+
+:root{
+  --paper:      #F2E9D8;
+  --paper-2:    #EADFC8;
+  --plaster:    #E4D7BE;
+  --ink:        #1A1713;
+  --ink-soft:   #5B5245;
+  --ink-faint:  #8C8272;
+
+  --green:      #1E5C42;
+  --green-deep: #123A2A;
+  --green-soft: #2F7B5A;
+
+  --brick:      #B3562F;
+  --bulb:       #E7A93A;
+
+  --frame:      #4A2E20;
+  --line:       rgba(26,23,19,.16);
+
+  --wrap: 1180px;
+  --gut: clamp(18px, 4vw, 56px);
+
+  --r-sm: 3px;
+  --r-md: 6px;
+}
+
+*,*::before,*::after{ box-sizing:border-box; }
+
+html{
+  -webkit-text-size-adjust:100%;
+  scroll-behavior:smooth;
+}
+@media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto; } }
+
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:"Golos Text", system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size:clamp(15px, .55vw + 13px, 17px);
+  line-height:1.62;
+  overflow-x:hidden;
+  background-image:
+    radial-gradient(1200px 700px at 12% -5%, rgba(231,169,58,.10), transparent 60%),
+    radial-gradient(900px 600px at 95% 8%, rgba(179,86,47,.07), transparent 62%);
+  background-attachment:fixed;
+}
+
+img,video{ max-width:100%; display:block; }
+a{ color:inherit; }
+
+h1,h2,h3,h4{
+  font-family:"Bitter", Georgia, serif;
+  font-weight:800;
+  line-height:1.04;
+  letter-spacing:-.015em;
+  margin:0;
+  text-wrap:balance;
+}
+h1{ font-size:clamp(38px, 7.4vw, 92px); }
+h2{ font-size:clamp(28px, 4.4vw, 52px); }
+h3{ font-size:clamp(19px, 1.7vw, 25px); letter-spacing:-.005em; }
+p{ margin:0 0 1em; }
+p:last-child{ margin-bottom:0; }
+
+.wrap{ width:min(100% - var(--gut)*2, var(--wrap)); margin-inline:auto; }
+.wrap-wide{ width:min(100% - var(--gut)*2, 1440px); margin-inline:auto; }
+
+.sr{
+  position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+  overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0;
+}
+
+/* ── знак: кільце лампочок з вивіски ───────── */
+.ring{ display:block; color:var(--ink); }
+.ring .bulbs{
+  fill:none; stroke:currentColor; stroke-width:6.5;
+  stroke-linecap:round; stroke-dasharray:.1 13.5138;
+}
+.ring .rim{ fill:none; stroke:currentColor; stroke-width:1.6; opacity:.5; }
+.ring .cap{ fill:currentColor; }
+
+/* ── шапка ─────────────────────────────────── */
+.hdr{
+  position:sticky; top:0; z-index:60;
+  background:color-mix(in srgb, var(--paper) 86%, transparent);
+  backdrop-filter:blur(9px);
+  -webkit-backdrop-filter:blur(9px);
+  border-bottom:1px solid var(--line);
+}
+.hdr__in{
+  display:flex; align-items:center; gap:22px;
+  min-height:72px;
+}
+.brand{
+  display:flex; align-items:center; gap:11px;
+  text-decoration:none; margin-right:auto;
+}
+.brand .ring{ width:38px; height:38px; flex:none; }
+.brand__name{
+  font-family:"Kelly Slab", "Bitter", serif;
+  font-size:22px; letter-spacing:.06em; line-height:1;
+}
+.brand__sub{
+  display:block; font-family:"Golos Text",sans-serif;
+  font-size:9.5px; letter-spacing:.28em; color:var(--ink-faint);
+  margin-top:3px;
+}
+.nav{ display:flex; gap:26px; align-items:center; }
+.nav a{
+  text-decoration:none; font-size:15px; font-weight:500;
+  padding:6px 0; position:relative; color:var(--ink);
+}
+.nav a::after{
+  content:""; position:absolute; left:0; right:0; bottom:0; height:2px;
+  background:var(--green); transform:scaleX(0); transform-origin:left;
+  transition:transform .28s cubic-bezier(.2,.7,.3,1);
+}
+.nav a:hover::after,
+.nav a[aria-current="page"]::after{ transform:scaleX(1); }
+.nav a[aria-current="page"]{ color:var(--green); }
+
+.burger{
+  display:none; width:42px; height:42px; border:1px solid var(--line);
+  border-radius:var(--r-sm); background:transparent; cursor:pointer;
+  align-items:center; justify-content:center; flex:none;
+}
+.burger span{ display:block; width:18px; height:1.6px; background:var(--ink); position:relative; }
+.burger span::before,.burger span::after{
+  content:""; position:absolute; left:0; width:18px; height:1.6px; background:var(--ink);
+  transition:transform .25s;
+}
+.burger span::before{ top:-6px; } .burger span::after{ top:6px; }
+.is-menu .burger span{ background:transparent; }
+.is-menu .burger span::before{ transform:translateY(6px) rotate(45deg); }
+.is-menu .burger span::after{ transform:translateY(-6px) rotate(-45deg); }
+
+/* ── кнопки ────────────────────────────────── */
+.btn{
+  display:inline-flex; align-items:center; gap:10px;
+  padding:14px 24px; border-radius:var(--r-sm);
+  background:var(--green); color:#F7F1E4; text-decoration:none;
+  font-weight:500; font-size:15px; border:1px solid var(--green);
+  transition:background .25s, transform .25s, box-shadow .25s;
+  box-shadow:0 1px 0 rgba(0,0,0,.06);
+}
+.btn:hover{ background:var(--green-deep); transform:translateY(-2px); }
+.btn--ghost{
+  background:transparent; color:var(--ink); border-color:var(--ink);
+}
+.btn--ghost:hover{ background:var(--ink); color:var(--paper); }
+.btn__dot{ width:7px; height:7px; border-radius:50%; background:var(--bulb); flex:none; }
+
+/* ── секції ────────────────────────────────── */
+.sec{ padding:clamp(64px, 9vw, 128px) 0; }
+.sec--tight{ padding:clamp(48px, 6vw, 84px) 0; }
+
+.lead{
+  font-size:clamp(18px, 1.5vw, 22px);
+  line-height:1.5; max-width:34ch; color:var(--ink-soft);
+}
+
+.rule{
+  display:flex; align-items:center; gap:16px;
+  margin:0 0 clamp(28px,4vw,48px);
+}
+.rule::after{ content:""; flex:1; height:1px; background:var(--line); }
+.rule .ring{ width:22px; height:22px; flex:none; color:var(--brick); }
+.rule h2{ flex:none; }
+
+/* ── герой ─────────────────────────────────── */
+.hero{
+  position:relative; padding:clamp(46px,7vw,86px) 0 clamp(30px,4vw,52px);
+  overflow:hidden;
+}
+.hero__grid{
+  display:grid; grid-template-columns:1.05fr .95fr;
+  gap:clamp(28px,5vw,72px); align-items:end;
+}
+.hero__mark{ width:clamp(74px,8vw,104px); height:auto; color:var(--green); margin-bottom:22px; }
+.hero h1 em{ font-style:normal; color:var(--green); }
+.hero__hand{
+  font-family:"Kelly Slab", serif; font-size:clamp(17px,1.5vw,21px);
+  color:var(--brick); margin:20px 0 0; line-height:1.4;
+}
+.hero__cta{ display:flex; flex-wrap:wrap; gap:12px; margin-top:30px; }
+
+/* фото у рамці — як зі стіни в залі */
+.frame{
+  background:#FBF6EA;
+  padding:clamp(10px,1.2vw,18px);
+  border:1px solid var(--line);
+  box-shadow:
+    0 1px 0 #fff inset,
+    0 14px 34px -22px rgba(26,23,19,.55);
+  position:relative;
+}
+.frame--wood{ border:6px solid var(--frame); padding:10px; background:#F6EFE0; }
+.frame img{ width:100%; height:100%; object-fit:cover; display:block; }
+.frame figcaption{
+  font-size:12.5px; color:var(--ink-faint); padding-top:9px;
+  font-family:"Golos Text",sans-serif; letter-spacing:.01em;
+}
+.frame--tilt-l{ transform:rotate(-1.4deg); }
+.frame--tilt-r{ transform:rotate(1.1deg); }
+
+.hero__photo{ margin:0; }
+.hero__photo img{ aspect-ratio:4/5; }
+
+/* ── смуга-кашкети (роздільник) ────────────── */
+.caps{
+  border-block:1px solid var(--line);
+  background:var(--paper-2);
+  padding:18px 0;
+  overflow:hidden;
+}
+.caps__row{
+  display:flex; gap:clamp(22px,4vw,54px); align-items:center;
+  justify-content:center; flex-wrap:wrap;
+}
+.caps__item{
+  display:inline-flex; align-items:center; gap:9px;
+  font-size:13.5px; color:var(--ink-soft); white-space:nowrap;
+}
+.caps__item svg{ width:26px; height:26px; color:var(--ink); flex:none; }
+
+/* ── прайс ─────────────────────────────────── */
+.price{ list-style:none; margin:0; padding:0; }
+.price li{
+  display:flex; align-items:baseline; gap:14px;
+  padding:18px 0; border-bottom:1px solid var(--line);
+}
+.price li:first-child{ border-top:1px solid var(--line); }
+.price__name{ font-family:"Bitter",serif; font-weight:600; font-size:clamp(18px,1.7vw,24px); }
+.price__dots{ flex:1; border-bottom:1px dotted var(--ink-faint); transform:translateY(-4px); }
+.price__val{
+  font-family:"Kelly Slab",serif; font-size:clamp(19px,1.8vw,26px);
+  color:var(--green); white-space:nowrap;
+}
+.price__note{ display:block; font-size:13.5px; color:var(--ink-faint); font-family:"Golos Text",sans-serif; font-weight:400; margin-top:2px; }
+
+/* ── зали ──────────────────────────────────── */
+.halls{ display:grid; grid-template-columns:1fr 1fr; gap:clamp(20px,3vw,40px); }
+.hall{
+  background:#FBF6EA; border:1px solid var(--line); padding:clamp(20px,2.4vw,32px);
+  display:flex; flex-direction:column; gap:18px;
+}
+.hall__tag{
+  font-family:"Kelly Slab",serif; font-size:13px; color:var(--brick);
+  letter-spacing:.05em;
+}
+.hall__meta{ font-size:14.5px; color:var(--ink-soft); }
+.hall__meta b{ color:var(--ink); font-weight:500; }
+.hall .frame{ margin:0; }
+.hall .frame img{ aspect-ratio:4/5; }
+.halls > .frame img{ aspect-ratio:4/5; }
+.card .frame img{ aspect-ratio:16/10; }
+
+/* ── стіна колажів ─────────────────────────── */
+.wall{
+  display:grid;
+  grid-template-columns:repeat(12,1fr);
+  gap:clamp(12px,1.7vw,26px);
+  align-items:start;
+}
+.wall figure{ margin:0; }
+.wall .w3{ grid-column:span 3; }
+.wall .w4{ grid-column:span 4; }
+.wall .w5{ grid-column:span 5; }
+.wall .w6{ grid-column:span 6; }
+.wall .w7{ grid-column:span 7; }
+.wall .tall img{ aspect-ratio:3/4; }
+.wall .wide img{ aspect-ratio:16/10; }
+.wall .sq img{ aspect-ratio:1/1; }
+.wall .port img{ aspect-ratio:9/16; }   /* вертикальний кадр без обрізки */
+.wall .down{ margin-top:clamp(18px,3.4vw,54px); }
+
+/* ── стрічка вертикальних відео ────────────── */
+/* заголовок зверху, картки — трохи нижче центру
+   екрана, щоб текст блоку лишався видним */
+.reel{
+  min-height:100svh;
+  display:flex; flex-direction:column; justify-content:center;
+  padding:clamp(56px,7vw,96px) 0;
+  overflow:hidden;
+}
+.reel__head{ margin-bottom:clamp(22px,3vw,40px); }
+/* трохи піднімаємо групу, щоб картки зупинялися ледь нижче центру екрана */
+.reel__track{ margin-bottom:clamp(0px,4vh,44px); }
+.reel__hint{
+  display:inline-flex; align-items:center; gap:9px;
+  font-size:13px; color:var(--ink-faint); margin-top:10px;
+}
+.reel__hint svg{ width:17px; height:17px; }
+
+.reel__track{
+  display:flex; gap:clamp(12px,1.5vw,22px);
+  overflow-x:auto; overscroll-behavior-x:contain;
+  padding:6px var(--gut) 22px;
+  scroll-snap-type:x mandatory;
+  scrollbar-width:none; cursor:grab;
+}
+.reel__track::-webkit-scrollbar{ display:none; }
+.reel__track.is-drag{ cursor:grabbing; scroll-snap-type:none; }
+.reel__card{
+  flex:0 0 auto; width:clamp(190px, 17vw, 262px);
+  scroll-snap-align:center;
+  position:relative; background:#0E0D0B;
+  border:1px solid var(--line);
+  box-shadow:0 18px 40px -28px rgba(26,23,19,.7);
+}
+.reel__card video{
+  width:100%; aspect-ratio:9/16; object-fit:cover; display:block;
+  background:#0E0D0B;
+}
+.reel__card::after{
+  content:""; position:absolute; inset:0; pointer-events:none;
+  box-shadow:0 0 0 1px rgba(255,255,255,.06) inset;
+}
+
+/* ── решітка з кашкетами як навігація ──────── */
+.grid-caps{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:1px; background:var(--line); border:1px solid var(--line);
+}
+.grid-caps a{
+  background:var(--paper); padding:26px 20px; text-decoration:none;
+  display:flex; flex-direction:column; gap:12px; align-items:flex-start;
+  transition:background .3s, color .3s;
+}
+.grid-caps a:hover{ background:var(--green); color:#F7F1E4; }
+.grid-caps a:hover .grid-caps__ico{ color:var(--bulb); }
+.grid-caps__ico{ width:38px; height:38px; color:var(--ink); transition:color .3s; }
+.grid-caps b{ font-family:"Bitter",serif; font-size:17px; font-weight:600; }
+.grid-caps span{ font-size:13.5px; opacity:.72; }
+
+/* ── контакти ──────────────────────────────── */
+.cards{ display:grid; grid-template-columns:1fr 1fr; gap:clamp(20px,3vw,36px); }
+.card{
+  border:1px solid var(--line); background:#FBF6EA;
+  padding:clamp(22px,2.6vw,36px);
+  display:flex; flex-direction:column; gap:16px;
+}
+.card h3{ color:var(--green); }
+.card dl{ margin:0; display:grid; grid-template-columns:auto 1fr; gap:8px 16px; font-size:15px; }
+.card dt{ color:var(--ink-faint); }
+.card dd{ margin:0; }
+.card__links{ display:flex; gap:10px; flex-wrap:wrap; margin-top:auto; padding-top:6px; }
+
+.todo{
+  background:rgba(231,169,58,.22);
+  box-shadow:0 0 0 1px rgba(179,86,47,.35);
+  padding:0 5px; border-radius:2px;
+}
+
+/* ── підвал ────────────────────────────────── */
+.ftr{
+  background:var(--green-deep); color:#DCE8DF;
+  padding:clamp(46px,6vw,76px) 0 30px; margin-top:clamp(56px,8vw,110px);
+}
+.ftr a{ color:#DCE8DF; }
+.ftr__grid{ display:grid; grid-template-columns:1.2fr 1fr 1fr; gap:32px; }
+.ftr .ring{ width:52px; height:52px; color:var(--bulb); margin-bottom:16px; }
+.ftr h4{ font-size:15px; font-weight:600; margin-bottom:12px; color:#fff; }
+.ftr ul{ list-style:none; margin:0; padding:0; display:grid; gap:8px; font-size:14.5px; }
+.ftr__bottom{
+  margin-top:40px; padding-top:20px; border-top:1px solid rgba(255,255,255,.14);
+  display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap;
+  font-size:13px; opacity:.72;
+}
+
+/* ── поява при скролі (GSAP; без JS усе видно) ── */
+.js .reveal{ opacity:0; transform:translateY(26px); }
+
+/* ── завіса переходу ───────────────────────── */
+#curtain{
+  position:fixed; inset:0; z-index:999;
+  background:var(--green-deep);
+  display:grid; place-items:center;
+  transition:opacity .45s ease, visibility .45s;
+}
+#curtain .ring{ width:96px; height:96px; color:var(--bulb); }
+#curtain .ring .rim{ stroke:#EBD9AE; opacity:.35; }
+#curtain .ring .cap{ fill:#F3E7CB; }
+html.is-ready #curtain{ opacity:0; visibility:hidden; }
+html.is-leaving #curtain{ opacity:1; visibility:visible; }
+.no-js #curtain{ display:none; }
+
+@keyframes ring-spin{ to{ transform:rotate(360deg); } }
+#curtain .ring .bulbs{ transform-origin:60px 60px; animation:ring-spin 9s linear infinite; }
+@media (prefers-reduced-motion: reduce){
+  #curtain .ring .bulbs{ animation:none; }
+  #curtain{ transition:none; }
+  .js .reveal{ opacity:1; transform:none; }
+}
+
+/* якір не ховається під липкою шапкою; у стрічки відео відступ не потрібен —
+   вона сама висотою в екран і центрує картки */
+#centr,#topol{ scroll-margin-top:92px; }
+
+/* ── адаптив ───────────────────────────────── */
+@media (max-width: 900px){
+  .hero__grid{ grid-template-columns:1fr; align-items:start; }
+  .hero__photo{ max-width:420px; }
+  .halls,.cards,.ftr__grid{ grid-template-columns:1fr; }
+  .wall .w3,.wall .w4,.wall .w5{ grid-column:span 6; }
+  .wall .w6,.wall .w7{ grid-column:span 12; }
+  .wall .down{ margin-top:0; }
+
+  .burger{ display:inline-flex; }
+  .nav{
+    position:fixed; inset:72px 0 auto; flex-direction:column; gap:0;
+    background:var(--paper); border-bottom:1px solid var(--line);
+    padding:8px var(--gut) 20px; align-items:stretch;
+    transform:translateY(-118%); transition:transform .34s cubic-bezier(.2,.7,.3,1);
+    box-shadow:0 22px 40px -30px rgba(26,23,19,.7);
+  }
+  .is-menu .nav{ transform:translateY(0); }
+  .nav a{ padding:14px 0; border-bottom:1px solid var(--line); font-size:18px; }
+  .nav a::after{ display:none; }
+}
+@media (max-width: 560px){
+  #video{ scroll-margin-top:88px; }
+  .wall .w3,.wall .w4,.wall .w5{ grid-column:span 12; }
+  .price li{ flex-wrap:wrap; gap:6px; }
+  .price__dots{ min-width:30px; }
+  .reel{ min-height:auto; }
+}
