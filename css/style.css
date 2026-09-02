@@ -111,7 +111,7 @@ p:last-child{ margin-bottom:0; }
 }
 .brand__sub{
   display:block; font-family:"Golos Text",sans-serif;
-  font-size:9.5px; letter-spacing:.28em; color:var(--ink-faint);
+  font-size:11.5px; letter-spacing:.16em; color:var(--ink-faint);
   margin-top:3px;
 }
 .nav{ display:flex; gap:26px; align-items:center; }
@@ -174,7 +174,7 @@ p:last-child{ margin-bottom:0; }
 }
 .rule::after{ content:""; flex:1; height:1px; background:var(--line); }
 .rule .ring{ width:22px; height:22px; flex:none; color:var(--brick); }
-.rule h2{ flex:none; }
+.rule h2{ flex:0 1 auto; min-width:0; }
 
 /* ── герой ─────────────────────────────────── */
 .hero{
@@ -205,7 +205,7 @@ p:last-child{ margin-bottom:0; }
   position:relative;
 }
 .frame--wood{ border:6px solid var(--frame); padding:10px; background:#F6EFE0; }
-.frame img{ width:100%; height:100%; object-fit:cover; display:block; }
+.frame img{ width:100%; height:auto; object-fit:cover; display:block; }
 .frame figcaption{
   font-size:12.5px; color:var(--ink-faint); padding-top:9px;
   font-family:"Golos Text",sans-serif; letter-spacing:.01em;
@@ -355,6 +355,7 @@ p:last-child{ margin-bottom:0; }
 .card dt{ color:var(--ink-faint); }
 .card dd{ margin:0; }
 .card__links{ display:flex; gap:10px; flex-wrap:wrap; margin-top:auto; padding-top:6px; }
+.card__links .btn{ min-width:0; overflow-wrap:anywhere; }
 
 /* ── підвал ────────────────────────────────── */
 .ftr{
@@ -452,6 +453,12 @@ html.is-leaving #curtain{ opacity:1; visibility:visible; }
   .is-menu .scrim{ opacity:1; visibility:visible; pointer-events:auto; }
   body.is-menu{ overflow:hidden; }
 
+  /* посилання в підвалі і телефони в картках — нормальна ціль для пальця */
+  .ftr ul{ gap:2px; }
+  .ftr ul a,
+  .ftr__bottom a,
+  .card dd a{ display:inline-flex; align-items:center; min-height:42px; }
+
   /* нахили дрібнішають — на вузькому екрані вони заважають */
   .frame--tilt-l{ transform:rotate(-.8deg); }
   .frame--tilt-r{ transform:rotate(.6deg); }
@@ -476,6 +483,12 @@ html.is-leaving #curtain{ opacity:1; visibility:visible; }
   .reel{ padding:clamp(32px,5vh,56px) 0; }
   .reel__head{ margin-bottom:18px; }
   .reel__head .lead{ font-size:16px; }
+}
+
+@media (max-width: 380px){
+  :root{ --gut:16px; }
+  .brand__sub{ letter-spacing:.1em; }
+  .hdr__in{ gap:12px; }
 }
 
 @media (max-width: 480px){

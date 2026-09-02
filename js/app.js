@@ -207,7 +207,7 @@
     });
   }
 
-  if (!reduce && window.lax) {
+  if (!reduce && window.lax && window.innerWidth > 900) {
     lax.init();
     lax.addDriver("scrollY", function () { return window.scrollY; });
     lax.addElements(".lax-slow", {
