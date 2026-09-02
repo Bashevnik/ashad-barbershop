@@ -46,20 +46,26 @@ const PHOTO = {
 };
 
 const VIDEOS = ["356","357","359","361","363","371","372","374","375","376","378","380"]
-  .map(n => A + "document_52224093268738463" + n + ".mp4");
+  .map(n => ({ src: A + "document_5222409326873846" + n + ".mp4", poster: A + "poster-" + n + ".jpg" }));
 
 /* ── локації ────────────────────────────────────────── */
 const LOC = [
   {
     id: "centr", tag: "Зала перша", name: "На Полі",
     street: "просп. Олександра Поля, 50, офіс 62",
-    hours: "щодня 09:00–19:00", opens: "09:00", closes: "19:00",
+    hours: "щодня 09:00–20:00", opens: "09:00", closes: "20:00",
+    phone: "095 690 60 55", tel: "+380956906055",
+    ig: "ashad_barbershop.dnipro",
+    maps: "https://maps.google.com/?cid=17836078881062854415",
     about: "Низька стеля, цегла, лампи на голих дротах і зелений честерфілд у кутку. На дивані буває пудель — він тут раніше за всіх."
   },
   {
     id: "topol", tag: "Зала друга", name: "На Тополі",
-    street: "вул. Авіаторів, 1Ш",
+    street: "вул. Авіаторів, 1Ч",
     hours: "щодня 09:00–21:00", opens: "09:00", closes: "21:00",
+    phone: "093 888 40 50", tel: "+380938884050",
+    ig: "ashad_barbershop.dnipro_2",
+    maps: "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent("ASHAD Barbershop Dnipro 2"),
     about: "Висока, світла, вітрина на всю стіну. На стіні — решітка з кашкетами, і той самий зелений диван."
   }
 ];
@@ -79,8 +85,6 @@ const NAV = [
   ["kontakty.html", "Контакти"]
 ];
 
-const mapsUrl = s =>
-  "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent("Дніпро, " + s);
 
 /* ── шматки розмітки ────────────────────────────────── */
 const header = cur => `
@@ -111,7 +115,7 @@ const footer = `
       <div>
         <h4>Де ми</h4>
         <ul>
-          ${LOC.map(l => `<li><a href="${mapsUrl(l.street)}" target="_blank" rel="noopener">${l.street}</a><br><span style="opacity:.7">${l.hours}</span></li>`).join("\n          ")}
+          ${LOC.map(l => `<li><a href="${l.maps}" target="_blank" rel="noopener">${l.street}</a><br><span style="opacity:.7">${l.hours}</span></li>`).join("\n          ")}
         </ul>
       </div>
       <div>
@@ -121,7 +125,7 @@ const footer = `
     </div>
     <div class="ftr__bottom">
       <span>© <span id="year">2026</span> ASHAD Barbershop, Дніпро</span>
-      <span>Записатись: <a href="tel:+380000000000"><span class="todo">телефон — вписати</span></a></span>
+      <span>Записатись: <a href="tel:${LOC[0].tel}">${LOC[0].phone}</a> · <a href="https://instagram.com/${LOC[0].ig}" target="_blank" rel="noopener">Instagram</a></span>
     </div>
   </div>
 </footer>`;
@@ -136,6 +140,8 @@ const jsonld = JSON.stringify({
   priceRange: "600–1100 ₴",
   currenciesAccepted: "UAH",
   areaServed: "Дніпро",
+  telephone: LOC[0].tel,
+  sameAs: LOC.map(l => "https://instagram.com/" + l.ig),
   makesOffer: PRICES.map(([n, p]) => ({
     "@type": "Offer",
     itemOffered: { "@type": "Service", name: n },
@@ -145,6 +151,9 @@ const jsonld = JSON.stringify({
   department: LOC.map(l => ({
     "@type": "HairSalon",
     name: "ASHAD Barbershop — " + l.name,
+    telephone: l.tel,
+    sameAs: ["https://instagram.com/" + l.ig],
+    hasMap: l.maps,
     address: {
       "@type": "PostalAddress",
       streetAddress: l.street,
@@ -234,7 +243,7 @@ const reel = `
     <span class="reel__hint">${ico.drag} тягни вбік</span>
   </div>
   <div class="reel__track">
-    ${VIDEOS.map((v, i) => `<div class="reel__card"><video data-src="${v}" muted loop playsinline preload="none" aria-label="Відео ${i + 1} з барбершопу"></video></div>`).join("\n    ")}
+    ${VIDEOS.map((v, i) => `<div class="reel__card"><video data-src="${v.src}" poster="${v.poster}" muted loop playsinline preload="none" aria-label="Відео ${i + 1} з барбершопу"></video></div>`).join("\n    ")}
   </div>
 </section>`;
 
@@ -416,16 +425,15 @@ const kontakty = `
     ${LOC.map((l, i) => `<article class="card reveal">
       <span class="hall__tag">${l.tag}</span>
       <h3>${l.name}</h3>
-      ${fig(i === 0 ? PHOTO.facade1 : PHOTO.facade2, i === 0 ? "Вхід на проспекті Поля, 50" : "Вхід на Авіаторів, 1Ш")}
+      ${fig(i === 0 ? PHOTO.facade1 : PHOTO.facade2, i === 0 ? "Вхід на проспекті Поля, 50" : "Вхід на Авіаторів, 1Ч")}
       <dl>
         <dt>Адреса</dt><dd>${l.street}<br>Дніпро</dd>
         <dt>Години</dt><dd>${l.hours}</dd>
-        <dt>Майстер</dt><dd><span class="todo">ім’я — вписати</span></dd>
-        <dt>Телефон</dt><dd><a href="tel:+380000000000"><span class="todo">телефон — вписати</span></a></dd>
+        <dt>Телефон</dt><dd><a href="tel:${l.tel}">${l.phone}</a></dd>
       </dl>
       <div class="card__links">
-        <a class="btn" href="${mapsUrl(l.street)}" target="_blank" rel="noopener"><span class="btn__dot"></span>Google Maps</a>
-        <a class="btn btn--ghost" href="https://instagram.com/" target="_blank" rel="noopener">Instagram</a>
+        <a class="btn" href="${l.maps}" target="_blank" rel="noopener"><span class="btn__dot"></span>Google Maps</a>
+        <a class="btn btn--ghost" href="https://instagram.com/${l.ig}" target="_blank" rel="noopener">@${l.ig}</a>
       </div>
     </article>`).join("\n    ")}
   </div>

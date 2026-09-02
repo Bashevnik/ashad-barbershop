@@ -354,12 +354,6 @@ p:last-child{ margin-bottom:0; }
 .card dd{ margin:0; }
 .card__links{ display:flex; gap:10px; flex-wrap:wrap; margin-top:auto; padding-top:6px; }
 
-.todo{
-  background:rgba(231,169,58,.22);
-  box-shadow:0 0 0 1px rgba(179,86,47,.35);
-  padding:0 5px; border-radius:2px;
-}
-
 /* ── підвал ────────────────────────────────── */
 .ftr{
   background:var(--green-deep); color:#DCE8DF;
