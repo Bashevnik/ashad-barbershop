@@ -214,7 +214,7 @@
       scrollY: { translateY: [["elInY", "elOutY"], [40, -40]] }
     });
     lax.addElements(".lax-spin", {
-      scrollY: { rotate: [["elInY", "elOutY"], [-6, 6]] }
+      scrollY: { rotate: [["elInY", "elOutY"], [-4, 4]] }
     });
   }
 

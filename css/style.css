@@ -79,14 +79,10 @@ p:last-child{ margin-bottom:0; }
   overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0;
 }
 
-/* ── знак: кільце лампочок з вивіски ───────── */
-.ring{ display:block; color:var(--ink); }
-.ring .bulbs{
-  fill:none; stroke:currentColor; stroke-width:6.5;
-  stroke-linecap:round; stroke-dasharray:.1 13.5138;
-}
-.ring .rim{ fill:none; stroke:currentColor; stroke-width:1.6; opacity:.5; }
-.ring .cap{ fill:currentColor; }
+/* ── знак бренду: справжній логотип ────────── */
+.mark{ display:block; height:auto; }
+.rule__mark{ width:30px; flex:none; }
+.ftr__mark{ width:64px; margin-bottom:16px; }
 
 /* ── шапка ─────────────────────────────────── */
 .hdr{
@@ -101,18 +97,14 @@ p:last-child{ margin-bottom:0; }
   min-height:var(--hdr);
 }
 .brand{
-  display:flex; align-items:center; gap:11px;
+  display:flex; align-items:center; gap:12px;
   text-decoration:none; margin-right:auto;
 }
-.brand .ring{ width:38px; height:38px; flex:none; }
-.brand__name{
-  font-family:"Kelly Slab", "Bitter", serif;
-  font-size:22px; letter-spacing:.06em; line-height:1;
-}
-.brand__sub{
-  display:block; font-family:"Golos Text",sans-serif;
+.brand__logo{ width:50px; flex:none; }
+.brand__city{
+  font-family:"Golos Text",sans-serif; text-transform:uppercase;
   font-size:11.5px; letter-spacing:.16em; color:var(--ink-faint);
-  margin-top:3px;
+  padding-left:12px; border-left:1px solid var(--line); line-height:1.2;
 }
 .nav{ display:flex; gap:26px; align-items:center; }
 .nav a{
@@ -173,7 +165,7 @@ p:last-child{ margin-bottom:0; }
   margin:0 0 clamp(28px,4vw,48px);
 }
 .rule::after{ content:""; flex:1; height:1px; background:var(--line); }
-.rule .ring{ width:22px; height:22px; flex:none; color:var(--brick); }
+
 .rule h2{ flex:0 1 auto; min-width:0; }
 
 /* ── герой ─────────────────────────────────── */
@@ -185,7 +177,7 @@ p:last-child{ margin-bottom:0; }
   display:grid; grid-template-columns:1.05fr .95fr;
   gap:clamp(28px,5vw,72px); align-items:end;
 }
-.hero__mark{ width:clamp(74px,8vw,104px); height:auto; color:var(--green); margin-bottom:22px; }
+.hero__mark{ width:clamp(96px,11vw,132px); margin-bottom:24px; }
 .hero h1 em{ font-style:normal; color:var(--green); }
 .hero__hand{
   font-family:"Kelly Slab", serif; font-size:clamp(17px,1.5vw,21px);
@@ -364,7 +356,7 @@ p:last-child{ margin-bottom:0; }
 }
 .ftr a{ color:#DCE8DF; }
 .ftr__grid{ display:grid; grid-template-columns:1.2fr 1fr 1fr; gap:32px; }
-.ftr .ring{ width:52px; height:52px; color:var(--bulb); margin-bottom:16px; }
+
 .ftr h4{ font-size:15px; font-weight:600; margin-bottom:12px; color:#fff; }
 .ftr ul{ list-style:none; margin:0; padding:0; display:grid; gap:8px; font-size:14.5px; }
 .ftr__bottom{
@@ -383,17 +375,15 @@ p:last-child{ margin-bottom:0; }
   display:grid; place-items:center;
   transition:opacity .45s ease, visibility .45s;
 }
-#curtain .ring{ width:96px; height:96px; color:var(--bulb); }
-#curtain .ring .rim{ stroke:#EBD9AE; opacity:.35; }
-#curtain .ring .cap{ fill:#F3E7CB; }
+#curtain .curtain__mark{ width:clamp(112px,26vw,152px); }
 html.is-ready #curtain{ opacity:0; visibility:hidden; }
 html.is-leaving #curtain{ opacity:1; visibility:visible; }
 .no-js #curtain{ display:none; }
 
-@keyframes ring-spin{ to{ transform:rotate(360deg); } }
-#curtain .ring .bulbs{ transform-origin:60px 60px; animation:ring-spin 9s linear infinite; }
+@keyframes mark-breath{ 0%,100%{ opacity:.72; transform:scale(.985); } 50%{ opacity:1; transform:scale(1); } }
+#curtain .curtain__mark{ animation:mark-breath 1.7s ease-in-out infinite; }
 @media (prefers-reduced-motion: reduce){
-  #curtain .ring .bulbs{ animation:none; }
+  #curtain .curtain__mark{ animation:none; }
   #curtain{ transition:none; }
   .js .reveal{ opacity:1; transform:none; }
 }
@@ -487,7 +477,7 @@ html.is-leaving #curtain{ opacity:1; visibility:visible; }
 
 @media (max-width: 380px){
   :root{ --gut:16px; }
-  .brand__sub{ letter-spacing:.1em; }
+  .brand__city{ letter-spacing:.1em; padding-left:9px; }
   .hdr__in{ gap:12px; }
 }
 

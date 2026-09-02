@@ -10,15 +10,10 @@ const CAP_D =
   '<path d="M16 21v-5c0-7 5-12 12-12s12 6 12 13v4z"/>' +
   '<path d="M41 21H5c-1.6 0-2-2-.4-2.6L16 15h25z"/>';
 
-const ring = (cls = "") =>
-  `<svg class="ring ${cls}" viewBox="0 0 120 120" aria-hidden="true" focusable="false">` +
-  `<circle class="rim" cx="60" cy="60" r="57.5"/>` +
-  `<circle class="bulbs" cx="60" cy="60" r="52"/>` +
-  `<g class="cap" transform="translate(24,36) scale(1.5)">${CAP_D}</g>` +
-  `</svg>`;
+const mark = (cls = "", light = false) =>
+  `<img class="mark ${cls}" src="${A}logo${light ? "-light" : "-mark"}.png" ` +
+  `alt="ASHAD Barbershop" width="320" height="320" decoding="async">`;
 
-const capIco = (cls = "") =>
-  `<svg class="${cls}" viewBox="0 0 48 26" fill="currentColor" aria-hidden="true">${CAP_D.replace(/ 21/g, " 21")}</svg>`;
 
 const ico = {
   scissors:
@@ -92,11 +87,8 @@ const header = cur => `
 <header class="hdr">
   <div class="wrap hdr__in">
     <a class="brand" href="index.html">
-      ${ring()}
-      <span>
-        <span class="brand__name">ASHAD</span>
-        <span class="brand__sub">БАРБЕРШОП · ДНІПРО</span>
-      </span>
+      ${mark("brand__logo")}
+      <span class="brand__city">Дніпро</span>
     </a>
     <button class="burger" type="button" aria-label="Меню" aria-expanded="false" aria-controls="nav"><span></span></button>
     <nav class="nav" id="nav" aria-label="Головне меню">
@@ -110,7 +102,7 @@ const footer = `
   <div class="wrap">
     <div class="ftr__grid">
       <div>
-        ${ring()}
+        ${mark("ftr__mark", true)}
         <p style="max-width:30ch;margin:0">Барбершоп ASHAD. Дві зали в Дніпрі — на проспекті Поля і на Тополі.</p>
       </div>
       <div>
@@ -196,7 +188,7 @@ const page = ({ file, title, desc, body, cur, og }) => `<!doctype html>
 <script type="application/ld+json">${jsonld}</script>
 </head>
 <body>
-<div id="curtain" aria-hidden="true">${ring()}</div>
+<div id="curtain" aria-hidden="true">${mark("curtain__mark", true)}</div>
 ${header(cur)}
 <main id="main">
 ${body}
@@ -239,7 +231,7 @@ const fig = (src, cap, cls = "") =>
 const reel = `
 <section class="reel" id="video">
   <div class="wrap reel__head reveal">
-    <div class="rule"><h2>Як це виглядає</h2>${ring()}</div>
+    <div class="rule"><h2>Як це виглядає</h2>${mark("rule__mark")}</div>
     <p class="lead">Дванадцять коротких відео з обох зал.</p>
     <span class="reel__hint">${ico.drag} гортай убік</span>
   </div>
@@ -253,7 +245,7 @@ const home = `
 <section class="hero">
   <div class="wrap hero__grid">
     <div>
-      ${ring("hero__mark lax-spin")}
+      ${mark("hero__mark lax-spin")}
       <h1>Стрижемо<br>на Полі<br>і на <em>Тополі</em></h1>
       <p class="hero__hand">Дві зали в Дніпрі. Заходь — каву наллємо, пса погладиш.</p>
       <div class="hero__cta">
@@ -272,7 +264,7 @@ ${capsStrip}
 
 <section class="sec">
   <div class="wrap">
-    <div class="rule reveal"><h2>Дві зали, один диван</h2>${ring()}</div>
+    <div class="rule reveal"><h2>Дві зали, один диван</h2>${mark("rule__mark")}</div>
     <div class="halls">
       ${LOC.map((l, i) => `<article class="hall reveal">
         <span class="hall__tag">${l.tag}</span>
@@ -287,7 +279,7 @@ ${capsStrip}
 
 <section class="sec" style="background:var(--paper-2);border-block:1px solid var(--line)">
   <div class="wrap">
-    <div class="rule reveal"><h2>Скільки коштує</h2>${ring()}</div>
+    <div class="rule reveal"><h2>Скільки коштує</h2>${mark("rule__mark")}</div>
     <div class="reveal">${priceList}</div>
     <p style="margin-top:26px"><a class="btn btn--ghost" href="posluhy.html">Уся послуга з деталями</a></p>
   </div>
@@ -295,7 +287,7 @@ ${capsStrip}
 
 <section class="sec">
   <div class="wrap-wide">
-    <div class="rule reveal" style="width:min(100%,var(--wrap));margin-inline:auto"><h2>Стіна</h2>${ring()}</div>
+    <div class="rule reveal" style="width:min(100%,var(--wrap));margin-inline:auto"><h2>Стіна</h2>${mark("rule__mark")}</div>
     <div class="wall">
       <figure class="frame w5 tall reveal frame--tilt-l"><img src="${PHOTO.youngCl}" alt="Стрижка молодого клієнта" loading="lazy"><figcaption>Поля, 50 — робочий день</figcaption></figure>
       <figure class="frame w4 sq reveal down"><img src="${PHOTO.wash}" alt="Мийка голови, пудель на дивані" loading="lazy"><figcaption>Пудель у кадр проситься сам</figcaption></figure>
@@ -313,7 +305,7 @@ ${capsStrip}
 const posluhy = `
 <section class="sec sec--tight">
   <div class="wrap">
-    ${ring("hero__mark")}
+    ${mark("hero__mark")}
     <h1>Послуги<br>і ціни</h1>
     <p class="lead" style="margin-top:22px">Однаково на Полі і на Тополі. Без пакетів і без зірочок.</p>
   </div>
@@ -328,7 +320,7 @@ ${capsStrip}
 <section class="sec">
   <div class="wrap halls">
     <div class="reveal">
-      <div class="rule"><h2>Як проходить</h2>${ring()}</div>
+      <div class="rule"><h2>Як проходить</h2>${mark("rule__mark")}</div>
       <p>Сідаєш, кажеш, що хочеш. Якщо не знаєш — подивимось разом, що росте і що взагалі буде добре лежати. Далі стрижка, помиємо голову, вкладемо.</p>
       <p>Борода — окремо або разом зі стрижкою, як зручніше. Камуфляж робимо м’яко, щоб не було ефекту фарбованого.</p>
       <p>Приходити краще за записом — зал невеликий, у живій черзі можна довго сидіти.</p>
@@ -342,7 +334,7 @@ ${capsStrip}
 
 <section class="sec" style="background:var(--paper-2);border-block:1px solid var(--line)">
   <div class="wrap">
-    <div class="rule reveal"><h2>Що ще спитати</h2>${ring()}</div>
+    <div class="rule reveal"><h2>Що ще спитати</h2>${mark("rule__mark")}</div>
     <div class="halls">
       <div class="hall reveal"><h3>Скільки часу</h3><p>Стрижка — приблизно година. Зі бородою — довше, десь півтори.</p></div>
       <div class="hall reveal"><h3>Чим платити</h3><p>Готівкою або карткою — як зручно.</p></div>
@@ -358,7 +350,7 @@ ${capsStrip}
 const atmosfera = `
 <section class="sec sec--tight">
   <div class="wrap">
-    ${ring("hero__mark")}
+    ${mark("hero__mark")}
     <h1>Атмосфера</h1>
     <p class="lead" style="margin-top:22px">Дві зали, зовсім різні на вигляд. Спільне — зелений диван, кашкети і колажі на стінах.</p>
   </div>
@@ -378,7 +370,7 @@ const atmosfera = `
 <section class="sec" id="centr">
   <div class="wrap-wide">
     <div class="rule reveal" style="width:min(100%,var(--wrap));margin-inline:auto">
-      <h2>Зала на Полі</h2>${ring()}
+      <h2>Зала на Полі</h2>${mark("rule__mark")}
     </div>
     <div class="wall">
       <figure class="frame w5 tall reveal frame--tilt-l"><img src="${PHOTO.lounge}" alt="Зона очікування з диваном і трьома колажами" loading="lazy"><figcaption>Три колажі, лампи на дротах, кава поруч</figcaption></figure>
@@ -396,7 +388,7 @@ const atmosfera = `
 <section class="sec" id="topol" style="background:var(--paper-2);border-block:1px solid var(--line)">
   <div class="wrap-wide">
     <div class="rule reveal" style="width:min(100%,var(--wrap));margin-inline:auto">
-      <h2>Зала на Тополі</h2>${ring()}
+      <h2>Зала на Тополі</h2>${mark("rule__mark")}
     </div>
     <div class="wall">
       <figure class="frame w5 tall reveal"><img src="${PHOTO.velvet}" alt="Зелений честерфілд біля вітрини, чорні штори" loading="lazy"><figcaption>Диван біля вітрини</figcaption></figure>
@@ -415,7 +407,7 @@ ${reel}
 const kontakty = `
 <section class="sec sec--tight">
   <div class="wrap">
-    ${ring("hero__mark")}
+    ${mark("hero__mark")}
     <h1>Контакти</h1>
     <p class="lead" style="margin-top:22px">Дві адреси в Дніпрі. Обидві — з круглою вивіскою і барбер-стовпом біля дверей.</p>
   </div>
@@ -445,7 +437,7 @@ ${capsStrip}
 <section class="sec">
   <div class="wrap halls">
     <div class="reveal">
-      <div class="rule"><h2>Як записатись</h2>${ring()}</div>
+      <div class="rule"><h2>Як записатись</h2>${mark("rule__mark")}</div>
       <p>Найшвидше — подзвонити або написати в Instagram. Скажи, на яку залу і приблизно коли зручно, ми підкажемо вільний час.</p>
       <p>Якщо не додзвонився — напиши, передзвонимо, коли звільниться крісло.</p>
     </div>
