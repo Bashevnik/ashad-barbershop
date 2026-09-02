@@ -24,8 +24,9 @@
   --frame:      #4A2E20;
   --line:       rgba(26,23,19,.16);
 
+  --hdr: 72px;
   --wrap: 1180px;
-  --gut: clamp(18px, 4vw, 56px);
+  --gut: clamp(20px, 4vw, 56px);
 
   --r-sm: 3px;
   --r-md: 6px;
@@ -96,8 +97,8 @@ p:last-child{ margin-bottom:0; }
   border-bottom:1px solid var(--line);
 }
 .hdr__in{
-  display:flex; align-items:center; gap:22px;
-  min-height:72px;
+  display:flex; align-items:center; gap:18px;
+  min-height:var(--hdr);
 }
 .brand{
   display:flex; align-items:center; gap:11px;
@@ -194,6 +195,7 @@ p:last-child{ margin-bottom:0; }
 
 /* фото у рамці — як зі стіни в залі */
 .frame{
+  margin:0;                     /* figure має власний margin від браузера */
   background:#FBF6EA;
   padding:clamp(10px,1.2vw,18px);
   border:1px solid var(--line);
@@ -397,7 +399,17 @@ html.is-leaving #curtain{ opacity:1; visibility:visible; }
 
 /* якір не ховається під липкою шапкою; у стрічки відео відступ не потрібен —
    вона сама висотою в екран і центрує картки */
-#centr,#topol{ scroll-margin-top:92px; }
+#centr,#topol{ scroll-margin-top:calc(var(--hdr) + 20px); }
+
+/* затемнення під висувним меню (тільки мобільне) */
+.scrim{
+  position:fixed; inset:0; z-index:55;
+  background:rgba(18,58,42,.36);
+  opacity:0; visibility:hidden; pointer-events:none;
+  transition:opacity .3s ease, visibility .3s;
+  backdrop-filter:blur(2px);
+  -webkit-backdrop-filter:blur(2px);
+}
 
 /* ── адаптив ───────────────────────────────── */
 @media (max-width: 900px){
@@ -406,24 +418,70 @@ html.is-leaving #curtain{ opacity:1; visibility:visible; }
   .halls,.cards,.ftr__grid{ grid-template-columns:1fr; }
   .wall .w3,.wall .w4,.wall .w5{ grid-column:span 6; }
   .wall .w6,.wall .w7{ grid-column:span 12; }
-  .wall .down{ margin-top:0; }
+  .wall .down{ margin-top:clamp(10px,3vw,22px); }
 
   .burger{ display:inline-flex; }
+
+  /* панель ховається повністю за верхній край: вона починається під
+     шапкою, тому крім своєї висоти треба зʼїхати ще на висоту шапки */
   .nav{
-    position:fixed; inset:72px 0 auto; flex-direction:column; gap:0;
-    background:var(--paper); border-bottom:1px solid var(--line);
-    padding:8px var(--gut) 20px; align-items:stretch;
-    transform:translateY(-118%); transition:transform .34s cubic-bezier(.2,.7,.3,1);
-    box-shadow:0 22px 40px -30px rgba(26,23,19,.7);
+    position:fixed; left:0; right:0; top:var(--hdr);
+    max-height:calc(100svh - var(--hdr));
+    overflow-y:auto; overscroll-behavior:contain;
+    flex-direction:column; gap:0; align-items:stretch;
+    background:var(--paper);
+    border-bottom:1px solid var(--line);
+    padding:2px var(--gut) 16px;
+    transform:translateY(calc(-100% - var(--hdr)));
+    transition:transform .34s cubic-bezier(.2,.7,.3,1), visibility .34s;
+    visibility:hidden;
+    box-shadow:0 24px 44px -30px rgba(26,23,19,.75);
   }
-  .is-menu .nav{ transform:translateY(0); }
-  .nav a{ padding:14px 0; border-bottom:1px solid var(--line); font-size:18px; }
+  .is-menu .nav{ transform:translateY(0); visibility:visible; }
+  .nav a{
+    padding:16px 2px; border-bottom:1px solid var(--line);
+    font-size:18px; display:flex; align-items:center; justify-content:space-between;
+  }
+  .nav a:last-child{ border-bottom:0; }
   .nav a::after{ display:none; }
+  .nav a[aria-current="page"]::before{
+    content:""; width:7px; height:7px; border-radius:50%;
+    background:var(--bulb); order:2; flex:none;
+  }
+
+  .is-menu .scrim{ opacity:1; visibility:visible; pointer-events:auto; }
+  body.is-menu{ overflow:hidden; }
+
+  /* нахили дрібнішають — на вузькому екрані вони заважають */
+  .frame--tilt-l{ transform:rotate(-.8deg); }
+  .frame--tilt-r{ transform:rotate(.6deg); }
 }
-@media (max-width: 560px){
-  #video{ scroll-margin-top:88px; }
-  .wall .w3,.wall .w4,.wall .w5{ grid-column:span 12; }
-  .price li{ flex-wrap:wrap; gap:6px; }
-  .price__dots{ min-width:30px; }
-  .reel{ min-height:auto; }
+
+@media (max-width: 620px){
+  #video{ scroll-margin-top:calc(var(--hdr) + 16px); }
+
+  /* мозаїка в дві колонки замість стовпчика на всю ширину */
+  .wall .w3,.wall .w4,.wall .w5,.wall .port{ grid-column:span 6; }
+  .wall .w6,.wall .w7{ grid-column:span 12; }
+
+  .price li{ gap:10px; padding:15px 0; }
+  .price__dots{ min-width:14px; }
+
+  .caps__row{ gap:12px 22px; }
+  .caps__item{ font-size:12.5px; }
+  .caps__item svg{ width:22px; height:22px; }
+
+  /* картка відео більша — на телефоні вона головна */
+  .reel__card{ width:min(66vw, 300px); }
+  .reel{ padding:clamp(32px,5vh,56px) 0; }
+  .reel__head{ margin-bottom:18px; }
+  .reel__head .lead{ font-size:16px; }
+}
+
+@media (max-width: 480px){
+  .card__links{ flex-direction:column; align-items:stretch; }
+  .card__links .btn{ justify-content:center; }
+  .hero__cta .btn{ flex:1 1 auto; justify-content:center; }
+  .grid-caps{ grid-template-columns:1fr 1fr; }
+  .ftr__bottom{ flex-direction:column; gap:8px; }
 }

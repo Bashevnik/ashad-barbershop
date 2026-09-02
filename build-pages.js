@@ -88,6 +88,7 @@ const NAV = [
 
 /* ── шматки розмітки ────────────────────────────────── */
 const header = cur => `
+<div class="scrim" aria-hidden="true"></div>
 <header class="hdr">
   <div class="wrap hdr__in">
     <a class="brand" href="index.html">
@@ -97,8 +98,8 @@ const header = cur => `
         <span class="brand__sub">БАРБЕРШОП · ДНІПРО</span>
       </span>
     </a>
-    <button class="burger" type="button" aria-label="Меню" aria-expanded="false"><span></span></button>
-    <nav class="nav" aria-label="Головне меню">
+    <button class="burger" type="button" aria-label="Меню" aria-expanded="false" aria-controls="nav"><span></span></button>
+    <nav class="nav" id="nav" aria-label="Головне меню">
       ${NAV.map(([h, t]) => `<a href="${h}"${h === cur ? ' aria-current="page"' : ""}>${t}</a>`).join("\n      ")}
     </nav>
   </div>
@@ -239,8 +240,8 @@ const reel = `
 <section class="reel" id="video">
   <div class="wrap reel__head reveal">
     <div class="rule"><h2>Як це виглядає</h2>${ring()}</div>
-    <p class="lead">Дванадцять коротких відео з обох зал. Тягни вбік мишею або крути колесом.</p>
-    <span class="reel__hint">${ico.drag} тягни вбік</span>
+    <p class="lead">Дванадцять коротких відео з обох зал.</p>
+    <span class="reel__hint">${ico.drag} гортай убік</span>
   </div>
   <div class="reel__track">
     ${VIDEOS.map((v, i) => `<div class="reel__card"><video data-src="${v.src}" poster="${v.poster}" muted loop playsinline preload="none" aria-label="Відео ${i + 1} з барбершопу"></video></div>`).join("\n    ")}

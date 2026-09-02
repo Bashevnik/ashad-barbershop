@@ -76,17 +76,29 @@
      2. МОБІЛЬНЕ МЕНЮ
      ─────────────────────────────────────────── */
   var burger = document.querySelector(".burger");
+  var scrim = document.querySelector(".scrim");
+
+  function menu(open) {
+    document.body.classList.toggle("is-menu", open);
+    if (burger) burger.setAttribute("aria-expanded", open ? "true" : "false");
+  }
+
   if (burger) {
     burger.addEventListener("click", function () {
-      var open = document.body.classList.toggle("is-menu");
-      burger.setAttribute("aria-expanded", open ? "true" : "false");
+      menu(!document.body.classList.contains("is-menu"));
     });
     document.querySelectorAll(".nav a").forEach(function (a) {
-      a.addEventListener("click", function () {
-        document.body.classList.remove("is-menu");
-        burger.setAttribute("aria-expanded", "false");
-      });
+      a.addEventListener("click", function () { menu(false); });
     });
+    if (scrim) scrim.addEventListener("click", function () { menu(false); });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") menu(false);
+    });
+    // повернулись на широкий екран — меню більше не потрібне
+    var wide = window.matchMedia("(min-width: 901px)");
+    (wide.addEventListener ? wide.addEventListener.bind(wide, "change") : wide.addListener.bind(wide))(
+      function (e) { if (e.matches) menu(false); }
+    );
   }
 
   /* ───────────────────────────────────────────

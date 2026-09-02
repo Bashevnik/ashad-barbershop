@@ -25,6 +25,7 @@
 <body>
 <div id="curtain" aria-hidden="true"><svg class="ring " viewBox="0 0 120 120" aria-hidden="true" focusable="false"><circle class="rim" cx="60" cy="60" r="57.5"/><circle class="bulbs" cx="60" cy="60" r="52"/><g class="cap" transform="translate(24,36) scale(1.5)"><path d="M16 21v-5c0-7 5-12 12-12s12 6 12 13v4z"/><path d="M41 21H5c-1.6 0-2-2-.4-2.6L16 15h25z"/></g></svg></div>
 
+<div class="scrim" aria-hidden="true"></div>
 <header class="hdr">
   <div class="wrap hdr__in">
     <a class="brand" href="index.html">
@@ -34,8 +35,8 @@
         <span class="brand__sub">БАРБЕРШОП · ДНІПРО</span>
       </span>
     </a>
-    <button class="burger" type="button" aria-label="Меню" aria-expanded="false"><span></span></button>
-    <nav class="nav" aria-label="Головне меню">
+    <button class="burger" type="button" aria-label="Меню" aria-expanded="false" aria-controls="nav"><span></span></button>
+    <nav class="nav" id="nav" aria-label="Головне меню">
       <a href="index.html">Головна</a>
       <a href="posluhy.html">Послуги і ціни</a>
       <a href="atmosfera.html">Атмосфера</a>
